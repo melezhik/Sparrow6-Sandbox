@@ -14,7 +14,7 @@ if !matched() {
    say "note: patch $path";
    replace(
      $path,
-     captures-full()[0]<index>,
+     captures-full()<>[0]<index>,
      "MODULES=({@mods.join(" ")})",
    );
 }
