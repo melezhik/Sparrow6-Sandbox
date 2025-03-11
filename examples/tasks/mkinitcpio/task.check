@@ -12,7 +12,7 @@ if !matched() {
    # probably other mods manipulations
    # and then update configuration
    say "note: patch $path";
-   say "note: ", captures-full().raku;
+   #say "note: ", captures-full().raku;
    replace(
      $path,
      captures-full()[0]<index>,
