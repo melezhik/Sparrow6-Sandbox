@@ -13,10 +13,10 @@ if !matched() {
    # and then update configuration
    say "note: patch $path";
    say "note: ", captures-full().raku;
-   #replace(
-    # $path,
-    # captures-full()<>[0]<index>,
-    # "MODULES=({@mods.join(" ")})",
-   #);
+   replace(
+     $path,
+     captures-full()[0]<index>,
+     "MODULES=({@mods.join(" ")})",
+   );
 }
 CODE
