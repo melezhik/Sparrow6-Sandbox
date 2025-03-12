@@ -30,11 +30,11 @@ sub check-and-modify() {
 
       say "note: start appying patches";
       if config()<zfs_filesystem> or "zfs" (elem) @mods {
-         if config()<zfs_filesystem> && %mods<zfs>:exists {
+         if config()<zfs_filesystem> and %mods<zfs>:exists {
             say "note: insert zfs before filesystems";
             @mods.splice(%mods<zfs>,1); # remove zfs mod
             @mods[(%mods<filesystems>] = "zfs filesystems";
-         } elsif config()<zfs_filesystem> && ! %mods<zfs>:exists {
+         } elsif config()<zfs_filesystem> and ! %mods<zfs>:exists {
             say "note: add zfs mode";
             @mods.push("zfs"); # add zfs node
          }
