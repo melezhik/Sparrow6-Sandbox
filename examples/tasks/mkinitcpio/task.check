@@ -25,6 +25,17 @@ sub check-and-modify() {
          say "assert: 0 udev or systemd exists in MODULES";
       }
       return unless $sanity-check;
+
+      say "note: start appying patches";
+      if config()<zfs_filesystem> or "zfs" (elem) @mods {
+         say "note: insert zfs before filesystems";
+         for 0 .. @mods.elems -> $i { 
+            next if ! @f[$i].defined; 
+            @mods.splice($i,1) if @mods[$i] eq "zfs";
+            @mods[$i] = "zfs filesystems" if @mods[$i] eq "filesystems";
+         }
+
+      }
       @mods.push("zfs") unless "zfs" (elem) @mods;
       # probably other mods manipulations
       # and then update configuration
