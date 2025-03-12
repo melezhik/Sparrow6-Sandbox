@@ -30,7 +30,7 @@ sub check-and-modify() {
       if config()<zfs_filesystem> or "zfs" (elem) @mods {
          say "note: insert zfs before filesystems";
          for 0 .. @mods.elems -> $i { 
-            next if ! @f[$i].defined; 
+            next if ! @mods[$i].defined; 
             @mods.splice($i,1) if @mods[$i] eq "zfs";
             @mods[$i] = "zfs filesystems" if @mods[$i] eq "filesystems";
          }
