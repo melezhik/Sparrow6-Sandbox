@@ -1,1 +1,3 @@
 zfs_filesystem: false
+encrypt_root_partition: true
+zfs_filesystem: true 
