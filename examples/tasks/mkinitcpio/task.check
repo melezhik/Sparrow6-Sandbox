@@ -7,6 +7,7 @@ sub check-and-modify() {
       say "assert 0 MODULES= section found";
       return;
    } else {
+      say "note: matched line: ", matched().raku;
       my $path = config()<path>;
       say "note: MODULES found: ", capture()[0].raku;
       my @mods = capture()[0].split(/\s+/);
