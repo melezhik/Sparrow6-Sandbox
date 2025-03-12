@@ -10,6 +10,8 @@ sub check-and-modify() {
       my $path = config()<path>;
       say "note: MODULES found: ", capture()[0].raku;
       my @mods = capture()[0].split(/\s+/);
+      my $indx = 0;
+      my %mods; for @mods -> $i { %mods{$i} = $indx; $indx++ };
       my $sanity-check = True;
       for qw<filesystems kms>.sort -> $f {
          if $f (elem) @mods {
@@ -28,15 +30,15 @@ sub check-and-modify() {
 
       say "note: start appying patches";
       if config()<zfs_filesystem> or "zfs" (elem) @mods {
-         say "note: insert zfs before filesystems";
-         for 0 .. @mods.elems -> $i { 
-            next if ! @mods[$i].defined; 
-            @mods.splice($i,1) if @mods[$i] eq "zfs";
-            @mods[$i] = "zfs filesystems" if @mods[$i] eq "filesystems";
+         if config()<zfs_filesystem> && %mods<zfs>:exists {
+            say "note: insert zfs before filesystems";
+            @mods.splice(%mods<zfs>,1); # remove zfs mod
+            @mods[(%mods<filesystems>] = "zfs filesystems";
+         } elsif config()<zfs_filesystem> && ! %mods<zfs>:exists {
+            say "note: add zfs mode";
+            @mods.push("zfs"); # add zfs node
          }
-
       }
-      @mods.push("zfs") unless "zfs" (elem) @mods;
       # probably other mods manipulations
       # and then update configuration
       say "note: patch $path";
