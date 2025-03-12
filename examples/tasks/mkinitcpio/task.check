@@ -13,11 +13,16 @@ sub check-and-modify() {
       my $sanity-check = True;
       for qw<filesystems kms>.sort -> $f {
          if $f (elem) @mods {
-              say "assert 1 $f exists in MODULES";
+              say "assert: 1 $f exists in MODULES";
          } else {
-              say "assert 0 $f exists in MODULES";
+              say "assert: 0 $f exists in MODULES";
               $sanity-check = False;
          }
+      }
+      if "udev" (elem) @mods || "systemd" (elem) @mods {
+         say "assert: 1 udev or systemd exists in MODULES";
+      } else {
+         say "assert: 0 udev or systemd exists in MODULES";
       }
       return unless $sanity-check;
       @mods.push("zfs") unless "zfs" (elem) @mods;
