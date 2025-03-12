@@ -27,6 +27,7 @@ sub check-and-modify() {
       } else {
          say "assert: 0 udev or systemd exists in MODULES";
       }
+
       return unless $sanity-check;
 
       say "note: start appying patches";
@@ -48,6 +49,10 @@ sub check-and-modify() {
          if config()<encrypt_root_partition > and config()<zfs_filesystem> and %mods<keyboard>:!exists {
             say "note: add keyboard after kms";
             @mods(%mods<kms>) = "kms keyboard"; # add keyboard after kms
+         }
+         if config()<nvidia_but_no_nouveau> {
+            say "note: remove kms as nvidia_but_no_nouveau is on";
+            @mods.splice(%mods<kms>,1); # remove kms mod            
          }
       }
       # probably other mods manipulations
