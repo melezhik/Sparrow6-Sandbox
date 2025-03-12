@@ -1,22 +1,35 @@
 ~regexp: ^^ \s* "MODULES=(" (.*) ")" \s* $$
 generator: <<CODE
 !raku
-if !matched() {
-   # fail check if no MODULES= section found 
-   say "assert 0 MODULES= section found";
-} else {
-   my $path = config()<path>;
-   say "note: ", capture()[0].raku;
-   my @mods = capture()[0].split(/\s+/);
-   @mods.push("zfs") unless "zfs" (elem) @mods;
-   # probably other mods manipulations
-   # and then update configuration
-   say "note: patch $path";
-   #say "note: ", captures-full().raku;
-   replace(
-     $path,
-     captures-full()[0]<index>,
-     "MODULES=({@mods.join(" ")})",
-   );
+sub check-and-modify() {
+   if !matched() {
+      # fail check if no MODULES= section found 
+      say "assert 0 MODULES= section found";
+      return;
+   } else {
+      my $path = config()<path>;
+      say "note: ", capture()[0].raku;
+      my @mods = capture()[0].split(/\s+/);
+      my $sanity-check = True;
+      for qw<filesystems kms>.sort -> $f {
+         if $f (elem) @mods {
+              say "assert 1 $f exists in MODULES";
+         } else {
+              say "assert 0 $f exists in MODULES";
+              $sanity-check = False;
+         }
+      }
+      return unless $sanity-check;
+      @mods.push("zfs") unless "zfs" (elem) @mods;
+      # probably other mods manipulations
+      # and then update configuration
+      say "note: patch $path";
+      replace(
+         $path,
+         captures-full()[0]<index>,
+         "MODULES=({@mods.join(" ")})",
+      );
+   }
 }
+check-and-modify();
 CODE
