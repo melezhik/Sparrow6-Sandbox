@@ -8,7 +8,7 @@ sub check-and-modify() {
       return;
    } else {
       my $path = config()<path>;
-      say "note: ", capture()[0].raku;
+      say "note: MODULES found: ", capture()[0].raku;
       my @mods = capture()[0].split(/\s+/);
       my $sanity-check = True;
       for qw<filesystems kms>.sort -> $f {
