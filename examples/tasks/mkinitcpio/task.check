@@ -45,6 +45,10 @@ sub check-and-modify() {
             say "note: remove fsck";
             @mods.splice(%mods<fsck>,1); # remove fsck mod
          }
+         if config()<encrypt_root_partition > and config()<zfs_filesystem> and ! %mods<keyboard>:exists {
+            say "note: add keyboard after kms";
+            @mods(%mods<kms>) = "kms keyboard"; # add keyboard after kms
+         }
       }
       # probably other mods manipulations
       # and then update configuration
