@@ -29,14 +29,20 @@ sub check-and-modify() {
       return unless $sanity-check;
 
       say "note: start appying patches";
+      say "note: config: ", config().raku;
       if config()<zfs_filesystem> or "zfs" (elem) @mods {
          if config()<zfs_filesystem> and %mods<zfs>:exists {
             say "note: insert zfs before filesystems";
             @mods.splice(%mods<zfs>,1); # remove zfs mod
             @mods[%mods<filesystems>] = "zfs filesystems";
-         } elsif config()<zfs_filesystem> and ! %mods<zfs>:exists {
+         }
+         if config()<zfs_filesystem> and ! %mods<zfs>:exists {
             say "note: add zfs mode";
             @mods.push("zfs"); # add zfs node
+         }
+         if config()<zfs_filesystem> and %mods<fsck>:exists {
+            say "note: remove fsck";
+            @mods.splice(%mods<fsck>,1); # remove fsck mod
          }
       }
       # probably other mods manipulations
