@@ -32,28 +32,26 @@ sub check-and-modify() {
 
       say "note: start appying patches";
       say "note: config: ", config().raku;
-      if config()<zfs_filesystem> or "zfs" (elem) @mods {
-         if config()<zfs_filesystem> and %mods<zfs>:exists {
-            say "note: insert zfs before filesystems";
-            @mods.splice(%mods<zfs>,1); # remove zfs mod
-            @mods[%mods<filesystems>] = "zfs filesystems";
-         }
-         if config()<zfs_filesystem> and %mods<zfs>:!exists {
-            say "note: add zfs mode";
-            @mods.push("zfs"); # add zfs node
-         }
-         if config()<zfs_filesystem> and %mods<fsck>:exists {
-            say "note: remove fsck";
-            @mods.splice(%mods<fsck>,1); # remove fsck mod
-         }
-         if config()<encrypt_root_partition > and config()<zfs_filesystem> and %mods<keyboard>:!exists {
-            say "note: add keyboard after kms";
-            @mods[%mods<kms>] = "kms keyboard"; # add keyboard after kms
-         }
-         if config()<nvidia_but_no_nouveau> {
-            say "note: remove kms as nvidia_but_no_nouveau is on";
-            @mods.splice(%mods<kms>,1); # remove kms mod            
-         }
+      if config()<zfs_filesystem> and %mods<zfs>:exists {
+         say "note: insert zfs before filesystems";
+         @mods.splice(%mods<zfs>,1); # remove zfs mod
+         @mods[%mods<filesystems>] = "zfs filesystems";
+      }
+      if config()<zfs_filesystem> and %mods<zfs>:!exists {
+         say "note: add zfs mode";
+         @mods.push("zfs"); # add zfs node
+      }
+      if config()<zfs_filesystem> and %mods<fsck>:exists {
+         say "note: remove fsck";
+         @mods.splice(%mods<fsck>,1); # remove fsck mod
+      }
+      if config()<encrypt_root_partition > and config()<zfs_filesystem> and %mods<keyboard>:!exists {
+         say "note: add keyboard after kms";
+         @mods[%mods<kms>] = "kms keyboard"; # add keyboard after kms
+      }
+      if config()<nvidia_but_no_nouveau> {
+         say "note: remove kms as nvidia_but_no_nouveau is on";
+         @mods.splice(%mods<kms>,1); # remove kms mod            
       }
       # probably other mods manipulations
       # and then update configuration
