@@ -1,2 +1,2 @@
 set -e
-cat -n $(config path)
+cat $(config path)
