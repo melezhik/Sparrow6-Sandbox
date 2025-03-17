@@ -8,7 +8,7 @@ end:
 generator: <<RAKU
 !raku
 if matched() {
-    say "note: multilib repo(s) found";
+    say "note: multilib repo(s) commented lines found";
     say "note: uncomment first repo";
     my $l2 = captures-full()<>[0]<index>;
     my $l1 = $l2 - 1;
