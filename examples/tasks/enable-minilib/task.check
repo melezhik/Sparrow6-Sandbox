@@ -20,3 +20,10 @@ if matched() {
 }
 
 RAKU
+
+code: <<BASH
+!bash
+echo "changes"
+echo "========================================================"
+cat $(config path)
+BASH
