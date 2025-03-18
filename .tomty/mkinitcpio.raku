@@ -14,10 +14,13 @@
 
 # say "examples/tasks/mkinitcpio/mkinitcpio.conf".IO.slurp();
 
-task-run "examples/tasks/enable-multilib", %(
-     :path<a/pacman.conf>,
-);
+if %*ENV<ACTION> eq "enable_multilib_repo" {
+  task-run "examples/tasks/enable-multilib", %(
+       :path<pacman.conf>,
+  );
+} else {
+  task-run "examples/tasks/disable-multilib", %(
+     :path<pacman.conf>,
+  );
+}
 
-task-run "examples/tasks/disable-multilib", %(
-     :path<b/pacman.conf>,
-);
