@@ -11,6 +11,7 @@ echo -n $pid > /tmp/box.pid
 
 qemu-system-aarch64 \
 -net nic \
+ -M virt \
 -net user,hostfwd=tcp::10022-:22 \
 -m 6024M \
 -smp 8 \
