@@ -1,9 +1,4 @@
-pid=$(cat /tmp/box.pid)
+set -x
 
-ps uax | grep $pid
+ps axf | grep "qemu-system-aarch64" | grep -v grep | awk '{print "kill -9 " $1}' | sh
 
-kill $pid 
-
-ps uax | grep $pid
-
-ps uax | grep qemu | grep -v grep
