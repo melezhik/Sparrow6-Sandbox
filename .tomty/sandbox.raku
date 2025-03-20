@@ -28,7 +28,7 @@ if %*ENV<ACTION> eq "enable_multilib_repo" {
 
 bash "mkdir -p ~/rocky-linux-distro";
 #bash "cd ~/rocky-linux-distro && sudo apt-get install wget -y && wget https://dl.rockylinux.org/pub/rocky/9.5/images/aarch64/Rocky-9-GenericCloud-Base.latest.aarch64.qcow2";
-bash "qemu-system-aarch64 --help";
+bash "sudo apt-get install qemu -y && qemu-system-aarch64 --help";
 
 bash q:to /CODE/;
 set -x
