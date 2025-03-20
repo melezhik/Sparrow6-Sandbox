@@ -1,6 +1,10 @@
 set -x
 set -e
 cd ~/rocky-linux-distro
+
+test -f Rocky-9-GenericCloud-Base.latest.aarch64.qcow2 || \
+wget https://dl.rockylinux.org/pub/rocky/9.5/images/aarch64/Rocky-9-GenericCloud-Base.latest.aarch64.qcow2
+
 touch meta-data
 cat << DATA > user-data
 #cloud-config
