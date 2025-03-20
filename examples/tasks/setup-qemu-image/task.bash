@@ -22,4 +22,4 @@ KEY=$(cat ~/.ssh/id_rsa.pub)
 echo $KEY
 sed -i -e 's/%key%/$KEY/' user-data
 genisoimage -output /tmp/init.iso -V cidata -r -J user-data meta-data
-ls -lth /tmp/init.iso
+ls -l /tmp/init.iso
